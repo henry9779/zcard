@@ -39,7 +39,7 @@ class BoardsController < ApplicationController
   end
 
   def destroy
-
+    @board = Board.find(params[:id])
     @board.destroy
     redirect_to boards_path, notice: '看板已刪除'
   end
