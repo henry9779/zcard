@@ -9,8 +9,13 @@
         <li>文章列表</li>
     </ul>
     <ul>
-        <li><%= link_to "註冊", users_sign_up_path %></li>
-        <li><%= link_to "登入", users_sign_in_path %></li>
+        <% if current_user %>
+        <li><%= current_user.nickname %>
+            <li><%= link_to "登出", logout_path, method: 'delete' %></li>
+        <% else %>
+            <li><%= link_to "註冊", registration_path %></li>
+            <li><%= link_to "登入", session_path %></li>
+        <% end %>
     </ul>
 
    
