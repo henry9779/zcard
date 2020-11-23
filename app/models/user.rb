@@ -1,26 +1,23 @@
 class User < ApplicationRecord
-
   validates :email, presence: true,
-            uniqueness: true,
-            format: { with: /[\w]+@([\w-]+\.)+[\w-]{2,4}/ }
-
+                    uniqueness: true,
+                    format: { with: /[\w]+@([\w-]+\.)+[\w-]{2,4}/ }
   validates :password, presence: true,
-            confirmation: true,
-            length: { minimum: 4 }
-            
+                       confirmation: true,
+                       length: { minimum: 4 }
   validates :nickname, presence: true
 
   before_create :encrypt_password
 
-  def self.login(u)
-    pw = Digest::SHA1.hexdigest("r#{u[:password]}b")
-    User.find_by(email: u[:email],
-                        password: pw)
+  has_many :posts
+
+  def self.login(user)
+    pw = Digest::SHA1.hexdigest("a#{user[:password]}z")
+    User.find_by(email: user[:email], password: pw)
   end
 
   private
-  def encrypt_password #加密
-    self.password = Digest::SHA1.hexdigest("r#{self.password}b") #灑鹽
+  def encrypt_password
+    self.password = Digest::SHA1.hexdigest("a#{self.password}z")
   end
-
 end

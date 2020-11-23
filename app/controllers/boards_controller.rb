@@ -1,5 +1,4 @@
 class BoardsController < ApplicationController
-
   before_action :find_board, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -7,41 +6,37 @@ class BoardsController < ApplicationController
   end
 
   def show
-
+    @posts = @board.posts.order(id: :desc)
   end
-  
+
   def new
     @board = Board.new
   end
 
-  def edit
+  def create
+    @board = Board.new(board_params)
 
+    if @board.save
+      redirect_to "/", notice: '成功新增看板'
+    else
+      render :new
+    end
   end
 
-  def create
-    @board = Board.new(board_params) #產生實體init接資料指定給@board
-
-    if @board.save #如果資料正確就寫入資料
-
-    redirect_to "/" , notice: '成功新增看板'
-
-    else
-      render :new #render 'boards/new'
-    end
+  def edit
   end
 
   def update
     if @board.update(board_params)
-    redirect_to boards_path, notice: '更新完成'
+      redirect_to root_path, notice: '更新成功'
     else
       render :edit
     end
   end
 
   def destroy
-    @board = Board.find(params[:id])
     @board.destroy
-    redirect_to boards_path, notice: '看板已刪除'
+    redirect_to root_path, notice: '看板已刪除'
   end
 
   private
@@ -50,7 +45,6 @@ class BoardsController < ApplicationController
   end
 
   def board_params
-  clean_params = params.require(:board).permit(:title)
+    params.require(:board).permit(:title)
   end
-  
 end

@@ -1,9 +1,17 @@
 module SessionsHelper
   def current_user
-    if session[:hello].present?
-    @user ||= User.find_by(email: session[:hello]) #如果有就給他，沒有就再撈一次
+    if session[:user9527].present?
+      @_user9487 ||= User.find_by(id: session[:user9527])
     else
       nil
+    end
+  end
+
+  def user_signed_in?
+    if current_user
+      return true
+    else
+      return false
     end
   end
 end
