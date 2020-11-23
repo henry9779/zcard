@@ -19,8 +19,8 @@ class User < ApplicationRecord
   end
 
   private
-  def encrypt_password
-    self.password = Digest::SHA1.hexdigest("r#{self.password}b")
+  def encrypt_password #加密
+    self.password = Digest::SHA1.hexdigest("r#{self.password}b") #灑鹽
   end
 
 end

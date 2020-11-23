@@ -47,8 +47,10 @@ class BoardsController < ApplicationController
   private
   def find_board
     @board = Board.find(params[:id])
-end
-def board_params
+  end
+
+  def board_params
   clean_params = params.require(:board).permit(:title)
-end
+  end
+  
 end
