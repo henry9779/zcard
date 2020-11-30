@@ -43,6 +43,11 @@ class PostsController < ApplicationController
     end
   end
 
+  def show
+    @comment = Comment.new
+    @comments = @post.comments.order(id: :desc).includes(:user)
+  end
+
   private
   def set_board
     @board = Board.find(params[:board_id])
