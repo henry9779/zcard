@@ -3,9 +3,6 @@ class PostsController < ApplicationController
   before_action :set_board, only: [:new, :create]
   before_action :set_post, only: [:show]
 
-  def show
-  end
-
   def new
     @post = Post.new
   end
@@ -13,7 +10,9 @@ class PostsController < ApplicationController
   def create
     # @post = Post.new(post_params)
     # @post.board = @board
+    # 因為關聯性需要board.id
     # @post.user = current_user
+    # 因為關聯性需要board.id
 
     # @post = @board.posts.new(post_params)
     # @post.user = current_user
@@ -46,6 +45,7 @@ class PostsController < ApplicationController
   def show
     @comment = Comment.new
     @comments = @post.comments.order(id: :desc).includes(:user)
+    # 每篇文章有很多留言，因為post has_many 做出 comments 方法
   end
 
   private

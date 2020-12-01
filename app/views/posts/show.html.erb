@@ -1,19 +1,29 @@
 <h2>
-    <%= @post.user.nickname %>
+  <%= @post.user.nickname %>
 </h2>
 <h1>
-    <%= @post.title %>
+  <%= @post.title %>
 </h1>
 
 <%= link_to '編輯', edit_post_path(@post) if @post.owned_by?(current_user) %>
 
-    <article>
-        <%= simple_format(@post.content) %>
-    </article>
+  <article>
+      <%= simple_format(@post.content) %>
+  </article>
 
-    <%= link_to '回上頁', :back %>
+  <%= link_to '回上頁', :back %>
 
-    <%= form_for(@comment, url: post_comments_path(@comment)) do |f| %>
-        <%= f.text_area :content, placeholder: '請輸入留言' %>
-        <%= f.submit '送出' %>
-    <% end %>
+  <%= form_for(@comment, url: post_comments_path(@post)) do |f| %>
+      <%= f.text_area :content, placeholder: '請輸入留言' %>
+      <%= f.submit '送出' %>
+	<% end %>
+
+<ul>
+<% @comments.each do |comment| %>
+	<li>
+		[<%= comment.user.nickname %>]
+		<%# N+1 問題 %>
+		<%= comment.content %>
+	</li>
+<% end %>
+</ul>
