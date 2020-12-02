@@ -24,6 +24,7 @@
 		[<%= comment.user.nickname %>]
 		<%# N+1 問題 %>
 		<%= comment.content %>
+    <%= link_to '刪除', comment, method: 'delete', data: { confirm: '你確定嗎？' } %>
 	</li>
 <% end %>
 </ul>

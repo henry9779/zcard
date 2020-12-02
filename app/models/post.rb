@@ -11,5 +11,6 @@ class Post < ApplicationRecord
 
   def owned_by?(user)
     self.user == user
+    # 擁有者
   end
 end

@@ -14,6 +14,14 @@ class CommentsController < ApplicationController
     end
   end
 
+  def destroy
+    comment = current_user.comments.find(params[:id])
+    # 從使用者角度找comments, 然後從那些comments找到那筆資料
+    comment.destroy
+    redirect_to comment.post, notice: '留言已刪除'
+    # 回到commnet所屬文章
+  end
+
 
   private
   def comment_params

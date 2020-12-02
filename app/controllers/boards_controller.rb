@@ -7,6 +7,7 @@ class BoardsController < ApplicationController
 
   def show
     @posts = @board.posts.order(id: :desc)
+    # 文章們是由看板的文章們.反向排序
   end
 
   def new
