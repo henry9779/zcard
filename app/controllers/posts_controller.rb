@@ -45,7 +45,7 @@ class PostsController < ApplicationController
   def show
     @comment = Comment.new
     @comments = @post.comments.order(id: :desc).includes(:user)
-    # 每篇文章有很多留言，因為post has_many 做出 comments 方法
+    # 每篇文章有很多留言，因為post has_many 做出 comments 方法，後面假刪除所以多加where過濾
   end
 
   private
