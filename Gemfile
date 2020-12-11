@@ -27,6 +27,10 @@ gem 'jbuilder', '~> 2.7'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
+gem "paranoia", "~> 2.2"
+gem 'kaminari'
+gem 'friendly_id', '~> 5.4.0'
+gem "pundit"
 
 group :development, :test do
   gem 'hirb-unicode', '~> 0.0.5'

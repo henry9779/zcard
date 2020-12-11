@@ -10,7 +10,11 @@
                     board_path(board.id), 
                     method: 'delete', 
                     data: {confirm: '真的要刪除嗎？'} %>
-                        <%= link_to board.title, board_path(board.id) %>
+                        <%= link_to '隱藏', hide_board_path, method: 'patch' if board.may_hide? %>
+                        <%= link_to '開放', open_board_path, method: 'patch' if board.may_open? %>
+                        <%= link_to '鎖定', lock_board_path, method: 'patch' if board.may_lock? %>
+                        <%= link_to board.title, board, class: board_title_css(board) %>
+
             </li>
             <% end %>
     </ul>

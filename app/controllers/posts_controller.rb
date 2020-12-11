@@ -48,6 +48,17 @@ class PostsController < ApplicationController
     # 每篇文章有很多留言，因為post has_many 做出 comments 方法，後面假刪除所以多加where過濾
   end
 
+  def favorite
+    post = Post.find(params[:id])
+    if current_user.favorite?(post)
+      current_user.my_favorites.destroy(post).page(paramsp[:id]).per(5)
+      render json: { status: 'removed' }
+    else
+      current_user.my_favorites << post
+      render json: { status: 'added' }
+    end
+  end
+
   private
   def set_board
     @board = Board.find(params[:board_id])

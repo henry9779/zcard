@@ -2,9 +2,15 @@
   <%= @post.user.nickname %>
 </h2>
 <h1>
+  <% if user_signed_in? %>
   <%= @post.title %>
-  <%= link_to '', id: 'favorite_btn', data: { id: @post.id } do %>
-    <i class="far fa-heart"></i>
+  <%= link_to '#', id: 'favorite_btn', data: { id: @post.id } do %>
+    <% if current_user.favorite?(@post)%>
+      <i class="fas fa-heart"></i>
+    <% else %>
+        <i class="far fa-heart"></i>
+      <% end%>
+    <% end %>
   <% end %>
 </h1>
 

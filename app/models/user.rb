@@ -12,9 +12,18 @@ class User < ApplicationRecord
   has_many :posts
   has_many :comments
 
+  has_many :boards
+
+  has_many :favorite_posts
+  has_many :my_favorites, through: :favorite_posts
+
   def self.login(user)
     pw = Digest::SHA1.hexdigest("a#{user[:password]}z")
     User.find_by(email: user[:email], password: pw)
+  end
+
+  def favorite?(post)
+    my_favorites.include?(post)
   end
 
   private
