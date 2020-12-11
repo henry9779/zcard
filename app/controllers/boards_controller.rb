@@ -7,7 +7,6 @@ class BoardsController < ApplicationController
 
   def show
     @posts = @board.posts.order(id: :desc)
-    # 文章們是由看板的文章們.反向排序
   end
 
   def new
@@ -15,7 +14,8 @@ class BoardsController < ApplicationController
   end
 
   def create
-    @board = Board.new(board_params)
+    # @board = Board.new(board_params)
+    @board = current_user.boards.new(board_params)
 
     if @board.save
       redirect_to "/", notice: '成功新增看板'
@@ -41,18 +41,19 @@ class BoardsController < ApplicationController
   end
 
   def hide
-    board.hide!
-    redirect_to boards_path, notice: '看板已隱藏'
+    authorize @board, :hide?
+    @board.hide! if @board.may_hide?
+    redirect_to boards_path, notice: '看板己隱藏'
   end
 
   def open
-    board.open!
-    redirect_to boards_path, notice: '看板已開放'
+    @board.open! if @board.may_open?
+    redirect_to boards_path, notice: '看板己開放'
   end
 
   def lock
-    board.lock!
-    redirect_to boards_path, notice: '看板已鎖定'
+    @board.lock! if @board.may_lock?
+    redirect_to boards_path, notice: '看板己鎖定'
   end
 
   private

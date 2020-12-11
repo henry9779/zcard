@@ -3,6 +3,11 @@ class PostsController < ApplicationController
   before_action :set_board, only: [:new, :create]
   before_action :set_post, only: [:show]
 
+  def show
+    @comment = Comment.new
+    @comments = @post.comments.includes(:user).page(params[:page]).per(10)
+  end
+
   def new
     @post = Post.new
   end
@@ -10,9 +15,7 @@ class PostsController < ApplicationController
   def create
     # @post = Post.new(post_params)
     # @post.board = @board
-    # 因為關聯性需要board.id
     # @post.user = current_user
-    # 因為關聯性需要board.id
 
     # @post = @board.posts.new(post_params)
     # @post.user = current_user
@@ -42,18 +45,15 @@ class PostsController < ApplicationController
     end
   end
 
-  def show
-    @comment = Comment.new
-    @comments = @post.comments.order(id: :desc).includes(:user)
-    # 每篇文章有很多留言，因為post has_many 做出 comments 方法，後面假刪除所以多加where過濾
-  end
-
   def favorite
     post = Post.find(params[:id])
+
     if current_user.favorite?(post)
-      current_user.my_favorites.destroy(post).page(paramsp[:id]).per(5)
+      # 移除我的最愛
+      current_user.my_favorites.destroy(post)
       render json: { status: 'removed' }
     else
+      # 加到我最愛
       current_user.my_favorites << post
       render json: { status: 'added' }
     end
@@ -69,6 +69,6 @@ class PostsController < ApplicationController
   end
 
   def set_post
-    @post = Post.find(params[:id])
+    @post = Post.friendly.find(params[:id])
   end
 end

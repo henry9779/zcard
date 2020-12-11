@@ -5,6 +5,7 @@
   <% if user_signed_in? %>
   <%= @post.title %>
   <%= link_to '#', id: 'favorite_btn', data: { id: @post.id } do %>
+  <%# data方法動態去抓id %>
     <% if current_user.favorite?(@post)%>
       <i class="fas fa-heart"></i>
     <% else %>

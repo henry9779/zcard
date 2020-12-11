@@ -9,13 +9,12 @@ class User < ApplicationRecord
 
   before_create :encrypt_password
 
+  has_many :boards
   has_many :posts
   has_many :comments
 
-  has_many :boards
-
   has_many :favorite_posts
-  has_many :my_favorites, through: :favorite_posts
+  has_many :my_favorites, through: :favorite_posts, source: 'post'
 
   def self.login(user)
     pw = Digest::SHA1.hexdigest("a#{user[:password]}z")

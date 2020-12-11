@@ -1,25 +1,30 @@
-document.addEventListener("DOMCotentLoaded", function() {
-    const favorite_btn = document.querySelector('#favorite_btn')
+document.addEventListener("DOMContentLoaded", function() {
+    const favorite_btn = document.querySelector('.posts-show #favorite_btn')
+
     if (favorite_btn) {
-        favorite_btn.addEventListener("click", function(exe) {
-            exe.preventDefault()
-                // 開API,送資料,AJAX
+        favorite_btn.addEventListener("click", function(e) {
+            e.preventDefault()
+
+            // 打 API / 送資料 / AJAX
             const ax = require('axios')
-                // 引入axios套件
             const token = document.querySelector('[name=csrf-token]').content
-                // 頁面一開始 header 就會生成 token, 在lay_out csrf_meta_tags直接拿來用
             ax.defaults.headers.common['X-CSRF-TOKEN'] = token
-                // 拿取 header 的 token
+
+            const postId = e.currentTarget.dataset.id
+            const icon = e.target
+
             ax.post(`/posts/${postId}/favorite`, {})
-                //對這個路徑送,不給參數
-                .then(funcion(resp) {
-                    //成功走這條
-                    if (resp.data.status == "addad")
-                        console.log(resp)
+                .then(function(resp) {
+                    if (resp.data.status == "added") {
+                        icon.classList.remove("far")
+                        icon.classList.add("fas")
+                    } else {
+                        icon.classList.remove("fas")
+                        icon.classList.add("far")
+                    }
                 })
                 .catch(function(err) {
-                    //失敗走這條
-                    console.log(err)
+                    console.log(err);
                 })
         })
     }

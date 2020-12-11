@@ -12,13 +12,18 @@ Rails.application.routes.draw do
   end
 
   resources :boards do
+    member do
+      patch :hide
+      patch :open
+      patch :lock
+    end
     resources :posts, shallow: true
   end
 
-  resources :posts, only: [] do
+  resources :posts, only:[] do
     resources :comments, shallow: true, only: [:create, :destroy]
     member do
-      post :favorite # post /posts/:id/favorite
+      post :favorite  # POST /posts/:id/favorite
     end
   end
 end
