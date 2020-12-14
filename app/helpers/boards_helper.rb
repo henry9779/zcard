@@ -5,9 +5,9 @@ module BoardsHelper
 
   # check?(board, :lock)
   # meta programming
-  def check?(obj, type)
-    obj.send("may_#{type}?") && policy(obj).send("#{type}?")
-  end
+  # def check?(obj, type)
+  #   obj.send("may_#{type}?") && policy(obj).send("#{type}?")
+  # end
 
   # def check_lock?(board)
   #   board.may_lock? && policy(board).lock?
